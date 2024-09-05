@@ -17,7 +17,8 @@ func SyncDB() {
 
 func ConnectToDB() {
 	var err error
-	DB, err = gorm.Open(postgres.Open(os.Getenv("DB")), &gorm.Config{})
+	dsn := os.Getenv("DB")
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		fmt.Println("Failed to connect to db")

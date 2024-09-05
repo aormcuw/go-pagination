@@ -1,12 +1,20 @@
 package initializers
 
 import (
+	"fmt"
 	"math/rand"
 
 	"github.com/robbyklein/pages/models"
 )
 
 func CreatePeople() {
+	var count int64
+	DB.Model(&models.Person{}).Count(&count)
+
+	if count > 0 {
+		fmt.Println("People data already exists. Skipping data generation.")
+		return
+	}
 	names := []string{
 		"Aaran",
 		"Aaren",
