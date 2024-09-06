@@ -29,18 +29,18 @@
       <ul>
         <li>
           {{ if (gt .pagination.CurrentPage 1)}}
-            <a href="/page/{{ .pagination.PreviousPage }}">
+            <a href="{{.pagination.BaseUrl}}/page/{{ .pagination.PreviousPage }}">
               Previous
             </a>
             {{ else }}
-            <span href="/page/{{ .pagination.PreviousPage }}">
+            <span href="{{.pagination.BaseUrl}}/page/{{ .pagination.PreviousPage }}">
               Previous
             </span>
           {{ end }}
         </li>
         {{ if (gt .pagination.CurrentPage 4)}}
         <li>
-          <a href="/page/1">
+          <a href="{{.pagination.BaseUrl}}/page/1">
             1
           </a>
         </li>
@@ -55,14 +55,14 @@
 
         {{ if (ge .pagination.CurrentPage 2)}}
         <li>
-          <a href="/page/{{ .pagination.TwoBelow}}">
+          <a href="{{.pagination.BaseUrl}}/page/{{ .pagination.TwoBelow}}">
             {{.pagination.TwoBelow}}
           </a>
         </li>
         {{end}}
         {{ if (gt .pagination.CurrentPage 1)}}
         <li>
-          <a href="/page/{{ .pagination.PreviousPage}}">
+          <a href="{{.pagination.BaseUrl}}/page/{{ .pagination.PreviousPage}}">
             {{.pagination.PreviousPage}}
           </a>
         </li>
@@ -74,37 +74,39 @@
         </li>
         {{ if (lt .pagination.CurrentPage .pagination.TotalPages)}}
         <li>
-          <a href="/page/{{.pagination.NextPage}}">
+          <a href="{{.pagination.BaseUrl}}/page/{{.pagination.NextPage}}">
             {{ .pagination.NextPage}}
           </a>
         </li>
         {{ end }}
         {{ if (le .pagination.TwoAfter .pagination.TotalPages)}}
         <li>
-          <a href="/page/{{.pagination.TwoAfter}}">
+          <a href="{{.pagination.BaseUrl}}/page/{{.pagination.TwoAfter}}">
             {{ .pagination.TwoAfter}}
           </a>
         </li>
         {{ end }}
-        {{ if (lt .pagination.TwoAfter .pagination.TotalPages)}}
+        {{ if (lt .pagination.ThreeAfter .pagination.TotalPages)}}
         <li>
           <span>
             ...
           </span>
         </li>
+        {{end}}
+        {{if (lt .pagination.TwoAfter .pagination.TotalPages)}}
         <li>
-          <a href="/page/{{.pagination.TotalPages}}">
+          <a href="{{.pagination.BaseUrl}}/page/{{.pagination.TotalPages}}">
             {{.pagination.TotalPages}}
           </a>
         </li>
         {{end}}
         <li>
           {{ if (lt .pagination.CurrentPage .pagination.TotalPages) }}
-          <a href="/page/{{ .pagination.NextPage }}">
+          <a href="{{.pagination.BaseUrl}}/page/{{ .pagination.NextPage }}">
             Next
           </a>
           {{ else }}
-          <span href="/page/{{ .pagination.NextPage }}">
+          <span href="{{.pagination.BaseUrl}}/page/{{ .pagination.NextPage }}">
             Next
           </span>
           {{ end }}
