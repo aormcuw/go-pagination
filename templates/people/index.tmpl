@@ -38,6 +38,28 @@
             </span>
           {{ end }}
         </li>
+        {{ if (gt .pagination.CurrentPage 4)}}
+        <li>
+          <a href="/page/1">
+            1
+          </a>
+        </li>
+        {{end}}
+        {{ if (gt .pagination.CurrentPage 4)}}
+        <li>
+          <span>
+            ...
+          </span>
+        </li>
+        {{end}}
+
+        {{ if (ge .pagination.CurrentPage 2)}}
+        <li>
+          <a href="/page/{{ .pagination.TwoBelow}}">
+            {{.pagination.TwoBelow}}
+          </a>
+        </li>
+        {{end}}
         {{ if (gt .pagination.CurrentPage 1)}}
         <li>
           <a href="/page/{{ .pagination.PreviousPage}}">
@@ -57,6 +79,25 @@
           </a>
         </li>
         {{ end }}
+        {{ if (le .pagination.TwoAfter .pagination.TotalPages)}}
+        <li>
+          <a href="/page/{{.pagination.TwoAfter}}">
+            {{ .pagination.TwoAfter}}
+          </a>
+        </li>
+        {{ end }}
+        {{ if (lt .pagination.TwoAfter .pagination.TotalPages)}}
+        <li>
+          <span>
+            ...
+          </span>
+        </li>
+        <li>
+          <a href="/page/{{.pagination.TotalPages}}">
+            {{.pagination.TotalPages}}
+          </a>
+        </li>
+        {{end}}
         <li>
           {{ if (lt .pagination.CurrentPage .pagination.TotalPages) }}
           <a href="/page/{{ .pagination.NextPage }}">
