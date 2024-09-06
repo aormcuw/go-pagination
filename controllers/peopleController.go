@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"math"
 	"net/http"
 	"strconv"
 
@@ -13,16 +15,29 @@ type PaginationData struct {
 	PreviousPage int
 	CurrentPage  int
 	NextPage     int
+	TotalPages   int
 }
 
 func PeopleIndexGET(c *gin.Context) {
 	// Get the page number
+	perPage := 10
+	page := 1
 	pageString := c.Param("page")
-	page, _ := strconv.Atoi(pageString)
-	offset := (page - 1) * 10
+	if pageString != "" {
+		page, _ = strconv.Atoi(pageString)
+	}
+	// Calculate total pages
+	var totalRows int64
+	initializers.DB.Model(&models.Person{}).Count(&totalRows)
+	totalPages := math.Ceil((float64(totalRows) / float64(perPage)))
+	fmt.Println(totalPages)
+
+	// Calculate the offset
+	offset := (page - 1) * perPage
+
 	// Get the people
 	var people []models.Person
-	initializers.DB.Limit(10).Offset(offset).Find(&people)
+	initializers.DB.Limit(perPage).Offset(offset).Find(&people)
 
 	// Render the page
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
@@ -31,6 +46,7 @@ func PeopleIndexGET(c *gin.Context) {
 			PreviousPage: page - 1,
 			CurrentPage:  page,
 			NextPage:     page + 1,
+			TotalPages:   int(totalPages),
 		},
 	})
 }
